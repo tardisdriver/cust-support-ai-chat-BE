@@ -1,11 +1,10 @@
-'use strict';
-
 require('dotenv').config();
+
 const conversations = require('./conversations');
 const express = require('express');
 const cors = require('cors');
-//const router = express.Router();
 const bodyParser = require('body-parser');
+
 const app = express();
 
 const STORE = {
