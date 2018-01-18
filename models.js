@@ -4,12 +4,12 @@ mongoose.Promise = global.Promise;
 
 const custSchema = mongoose.Schema({
   name: { type: String },
-  id: { type: String }
+  serviceNumber: { type: String, index: true },
 });
 
 const convSchema = mongoose.Schema({
-  id: { type: String },
-  custID: { type: String }
+  conversationID: { type: String, index: true },
+  serviceNumber: { type: String },
 });
 
 const Customer = mongoose.modelNames.Customer || mongoose.model('Customer', custSchema);
