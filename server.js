@@ -11,23 +11,6 @@ const { Customer, Conversation } = require('./models');
 
 const app = express();
 
-const STORE = {
-  "customers": [{
-    "name": "Bob Belcher",
-    "id": "654ZYX"
-  }, {
-    "name": "Linda Belcher",
-    "id": "901GHD"
-  }, {
-    "name": "Tina Belcher",
-    "id": "345HIJ"
-  }],
-  "conversations": [{
-    "id": "e40a3bc0-39a0-40e5-9d58-285bfd9544ec",
-    "custID": "654ZYX"
-  }]
-}
-
 app.use(cors());
 app.use(bodyParser.text());
 
@@ -146,9 +129,4 @@ if (require.main === module) {
   runServer().catch(err => console.error(err))
 }
 
-
 module.exports = { runServer, app, closeServer };
-
-// app.listen(process.env.PORT || 8080, () => {
-//   console.log(`Server listening on port ${process.env.PORT || 8080}`);
-// });
