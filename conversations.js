@@ -38,7 +38,6 @@ const getDiscoveryResponse = (query) => {
     collection_id: process.env.COLLECTION_ID,
     query,
   };
-  // //const discoveryResponse = 
   return discovery.query(discPayload);
 };
 
@@ -52,6 +51,7 @@ exports.sendMessage = async (message, conversation_id, name) => {
   const query = response.intents[0].intent;
   const discoveryResponse = await getDiscoveryResponse(query);
   const discMessage = discoveryResponse.results[0].text;
+  console.log('discmessage: ', discMessage);
   return ({
     message: discMessage,
     conversationID: conversation_id,
