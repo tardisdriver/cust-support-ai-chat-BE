@@ -48,15 +48,19 @@ exports.sendMessage = async (message, conversation_id, name) => {
     input: { 'text': message }
   };
   const response = await conversation.message(payload);
-  const query = response.intents[0].intent;
-  const discoveryResponse = await getDiscoveryResponse(query);
-  const discMessage = discoveryResponse.results[0].text;
-  console.log('discmessage: ', discMessage);
+  if (response.intents.length) {
+    const query = response.intents[0].intent;
+    const discoveryResponse = await getDiscoveryResponse(query);
+    const discMessage = discoveryResponse.results[0].text;
+    return ({
+      message: discMessage,
+      conversationID: conversation_id,
+    });
+  }
   return ({
-    message: discMessage,
+    message: response.output.text.join('\n'),
     conversationID: conversation_id,
   });
 };
-
 
 exports.getDiscoveryResponse = getDiscoveryResponse;

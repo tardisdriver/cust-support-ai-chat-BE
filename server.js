@@ -33,7 +33,7 @@ async function findConversationById(conversationID) {
 async function saveConversation(conversationID, serviceNumber) {
   // const conversations = STORE.conversations;
   // conversations.push({ id: conversationID, custID: serviceNumber });
-  return Conversation.create({ conversationID, serviceNumber })
+  return Conversation.create({ conversationID, serviceNumber });
 }
 
 app.get('/customers/:id', async (req, res) => {
@@ -67,12 +67,9 @@ app.get('/conversations', async (req, res) => {
   }
 });
 
-//whenever a new request is made, conversation ID is lost
-
 app.post('/conversations/:id', async (req, res) => {
   const serviceNumber = req.get("X-Service-Number");
   const message = req.body;
-  console.log(req.params.id);
   try {
     const customer = await findCustomerByServiceNumber(serviceNumber);
     if (customer) {
@@ -85,7 +82,6 @@ app.post('/conversations/:id', async (req, res) => {
           res.sendStatus(403);
         }
       } else {
-        console.log('reached 404');
         res.sendStatus(404);
       }
     } else {
