@@ -45,7 +45,7 @@ exports.sendMessage = async (message, conversation_id, name) => {
   const payload = {
     workspace_id: process.env.WORKSPACE_ID,
     context: { name, conversation_id },
-    input: { 'text': message }
+    input: { 'text': message },
   };
   const response = await conversation.message(payload);
   if (response.intents.length) {
