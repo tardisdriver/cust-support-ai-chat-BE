@@ -51,7 +51,7 @@ app.get('/customers/:id', async (req, res) => {
 });
 
 app.get('/conversations', async (req, res) => {
-  const serviceNumber = req.get("X-Service-Number");
+  const serviceNumber = req.get('X-Service-Number');
   try {
     const customer = await findCustomerByServiceNumber(serviceNumber);
     if (customer) {
@@ -68,7 +68,7 @@ app.get('/conversations', async (req, res) => {
 });
 
 app.post('/conversations/:id', async (req, res) => {
-  const serviceNumber = req.get("X-Service-Number");
+  const serviceNumber = req.get('X-Service-Number');
   const message = req.body;
   try {
     const customer = await findCustomerByServiceNumber(serviceNumber);
