@@ -3,16 +3,16 @@ const Discovery = require('watson-developer-cloud/discovery/v1');
 const Promise = require('bluebird');
 
 const conversation = new Conversation({
-  'username': process.env.CONVERSATION_USERNAME,
-  'password': process.env.CONVERSATION_PASSWORD,
-  'version_date': '2017-05-26'
+  username: process.env.CONVERSATION_USERNAME,
+  password: process.env.CONVERSATION_PASSWORD,
+  version_date: '2017-05-26',
 });
 
 const discovery = new Discovery({
-  'username': process.env.DISCOVERY_USERNAME,
-  'password': process.env.DISCOVERY_PASSWORD,
-  'version': 'v1',
-  'version_date': '2017-11-07',
+  username: process.env.DISCOVERY_USERNAME,
+  password: process.env.DISCOVERY_PASSWORD,
+  version: 'v1',
+  version_date: '2017-11-07',
 });
 
 conversation.message = Promise.promisify(conversation.message);
@@ -41,11 +41,11 @@ const getDiscoveryResponse = (query) => {
   return discovery.query(discPayload);
 };
 
-exports.sendMessage = async (message, conversation_id, name) => {
+exports.sendMessage = async (message, conversationID, name) => {
   const payload = {
     workspace_id: process.env.WORKSPACE_ID,
-    context: { name, conversation_id },
-    input: { 'text': message },
+    context: { name, conversationID },
+    input: { text: message },
   };
   const response = await conversation.message(payload);
   if (response.intents.length) {
@@ -54,12 +54,12 @@ exports.sendMessage = async (message, conversation_id, name) => {
     const discMessage = discoveryResponse.results[0].text;
     return ({
       message: discMessage,
-      conversationID: conversation_id,
+      conversationID,
     });
   }
   return ({
     message: response.output.text.join('\n'),
-    conversationID: conversation_id,
+    conversationID,
   });
 };
 

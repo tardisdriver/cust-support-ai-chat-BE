@@ -5,11 +5,11 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const chaiPromise = require('chai-as-promised');
 
-const { sendMessage, getDiscoveryResponse, startConversation } = require('../conversations');
+const { sendMessage } = require('../conversations');
 
-const expect = chai.expect;
+const { expect } = chai.expect;
 
-const should = chai.should;
+const { should } = chai.should;
 
 chai.use(chaiHttp);
 chai.use(chaiPromise);

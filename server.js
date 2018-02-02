@@ -11,6 +11,8 @@ const { Customer, Conversation } = require('./models');
 
 const app = express();
 
+let server;
+
 app.use(cors());
 app.use(bodyParser.text());
 
@@ -87,38 +89,39 @@ app.post('/conversations/:id', async (req, res) => {
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {
   return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, (err) => {
-      if (err) {
-        return reject(err);
+    mongoose.connect(databaseUrl, (mongoError) => {
+      if (mongoError) {
+        return reject(mongoError);
       }
       server = app.listen(port, () => {
         console.log(`Your app is listening on port ${port}`);
         resolve();
       })
-        .on('error', (err) => {
+        .on('error', (serverError) => {
           mongoose.disconnect();
-          reject(err);
+          reject(serverError);
         });
+      return server;
     });
   });
 }
 
 function closeServer() {
-  return mongoose.disconnect().then(() => {
-    return new Promise((resolve, reject) => {
+  return mongoose.disconnect().then(() =>
+    new Promise((resolve, reject) => {
       console.log('Closing server');
       server.close((err) => {
         if (err) {
           return reject(err);
         }
         resolve();
+        return server;
       });
-    });
-  });
+    }));
 }
 
 if (require.main === module) {
-  runServer().catch(err => console.error(err))
+  runServer().catch(err => console.error(err));
 }
 
 module.exports = { runServer, app, closeServer };
