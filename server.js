@@ -15,24 +15,16 @@ app.use(cors());
 app.use(bodyParser.text());
 
 async function findCustomerByServiceNumber(serviceNumber) {
-  // const customers = STORE.customers;
-  // return customers.find((cust) => id === cust.id);
-
   return Customer
     .findOne({ serviceNumber });
 }
 
 async function findConversationById(conversationID) {
-  // const conversations = STORE.conversations;
-  // return conversations.find((conv) => id === conv.id);
-
   return Conversation
     .findOne({ conversationID });
 }
 
 async function saveConversation(conversationID, serviceNumber) {
-  // const conversations = STORE.conversations;
-  // conversations.push({ id: conversationID, custID: serviceNumber });
   return Conversation.create({ conversationID, serviceNumber });
 }
 
