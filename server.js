@@ -17,13 +17,11 @@ app.use(cors());
 app.use(bodyParser.text());
 
 async function findCustomerByServiceNumber(serviceNumber) {
-  return Customer
-    .findOne({ serviceNumber });
+  return Customer.findOne({ serviceNumber });
 }
 
 async function findConversationById(conversationID) {
-  return Conversation
-    .findOne({ conversationID });
+  return Conversation.findOne({ conversationID });
 }
 
 async function saveConversation(conversationID, serviceNumber) {
@@ -70,7 +68,11 @@ app.post('/conversations/:id', async (req, res) => {
       const conversation = await findConversationById(req.params.id);
       if (conversation) {
         if (serviceNumber === conversation.serviceNumber) {
-          const response = await conversations.sendMessage(message, req.params.id, customer.name);
+          const response = await conversations.sendMessage(
+            message,
+            req.params.id,
+            customer.name,
+          );
           res.send(response.message);
         } else {
           res.sendStatus(403);
@@ -93,10 +95,11 @@ function runServer(databaseUrl = DATABASE_URL, port = PORT) {
       if (mongoError) {
         return reject(mongoError);
       }
-      server = app.listen(port, () => {
-        console.log(`Your app is listening on port ${port}`);
-        resolve();
-      })
+      server = app
+        .listen(port, () => {
+          console.log(`Your app is listening on port ${port}`);
+          resolve();
+        })
         .on('error', (serverError) => {
           mongoose.disconnect();
           reject(serverError);
