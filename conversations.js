@@ -31,6 +31,19 @@ exports.startConversation = async (name) => {
   });
 };
 
+exports.getConversationResponse = async (message) => {
+  const payload = {
+    workspace_id: process.env.WORKSPACE_ID,
+    input: { text: `${message}` },
+  };
+  const response = await conversation.message(payload);
+  const conversationID = response.context.conversation_id;
+  return ({
+    message: response.output.text.join('\n'),
+    conversationID,
+  });
+};
+
 
 const getDiscoveryResponse = (query) => {
   const discPayload = {
@@ -47,15 +60,18 @@ exports.sendMessage = async (message, conversationID, name) => {
     context: { name, conversationID },
     input: { text: message },
   };
+  const etcResponses = ['help', 'swear', 'yes', 'no', 'why'];
   const response = await conversation.message(payload);
   if (response.intents.length) {
-    const query = response.intents[0].intent;
-    const discoveryResponse = await getDiscoveryResponse(query);
-    const discMessage = discoveryResponse.results[0].text;
-    return ({
-      message: discMessage,
-      conversationID,
-    });
+    if (etcResponses.indexOf(response.intents[0].intent) === -1) {
+      const query = response.intents[0].intent;
+      const discoveryResponse = await getDiscoveryResponse(query);
+      const discMessage = discoveryResponse.results[0].text;
+      return ({
+        message: discMessage,
+        conversationID,
+      });
+    }
   }
   return ({
     message: response.output.text.join('\n'),
