@@ -60,7 +60,7 @@ exports.sendMessage = async (message, conversationID, name) => {
     context: { name, conversationID },
     input: { text: message },
   };
-  const etcResponses = ['help', 'swear', 'yes', 'no', 'why', 'thanks'];
+  const etcResponses = ['help', 'swear', 'yes', 'no', 'why', 'thanks', 'working-now'];
   const response = await conversation.message(payload);
   if (response.intents.length) {
     if (etcResponses.indexOf(response.intents[0].intent) === -1) {
