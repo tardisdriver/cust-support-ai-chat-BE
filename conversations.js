@@ -3,6 +3,7 @@ const Discovery = require('watson-developer-cloud/discovery/v1');
 const Promise = require('bluebird');
 
 const conversation = new Conversation({
+  url: 'https://gateway.watsonplatform.net/conversation/api',
   username: process.env.CONVERSATION_USERNAME,
   password: process.env.CONVERSATION_PASSWORD,
   version_date: '2017-05-26',
@@ -13,6 +14,7 @@ const discovery = new Discovery({
   password: process.env.DISCOVERY_PASSWORD,
   version: 'v1',
   version_date: '2017-11-07',
+  url: 'https://gateway.watsonplatform.net/discovery/api',
 });
 
 conversation.message = Promise.promisify(conversation.message);
