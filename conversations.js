@@ -62,17 +62,20 @@ exports.sendMessage = async (message, conversationID, name) => {
     context: { name, conversationID },
     input: { text: message },
   };
-  const etcResponses = ['help', 'swear', 'yes', 'no', 'why', 'thanks', 'working-now'];
+  const etcResponses = ['Greeting', 'help', 'swear', 'yes', 'no', 'why', 'thanks', 'working-now'];
   const response = await conversation.message(payload);
+  console.log(response);
   if (response.intents.length) {
     if (etcResponses.indexOf(response.intents[0].intent) === -1) {
       const query = response.intents[0].intent;
       const discoveryResponse = await getDiscoveryResponse(query);
-      const discMessage = discoveryResponse.results[0].text;
-      return ({
-        message: discMessage,
-        conversationID,
-      });
+      if (discoveryResponse.results.length > 0) {
+        const discMessage = discoveryResponse.results[0].text;
+        return ({
+          message: discMessage,
+          conversationID,
+        });
+      }
     }
   }
   return ({
